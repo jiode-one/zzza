@@ -1,0 +1,8 @@
+{
+  "name": "sliceza",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "extensions/*"
+  ]
+}
