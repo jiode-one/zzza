@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Zzza · Docs</title>
+
+    <style>
+      :root {
+        --bg: #0b0b10;
+        --fg: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.62);
+        --card: rgba(255, 255, 255, 0.04);
+        --border: rgba(255, 255, 255, 0.10);
+        --accent: #e11d48; /* pizza-red */
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        color: var(--fg);
+        background:
+          radial-gradient(1200px 800px at 10% 10%, rgba(225, 29, 72, 0.10), transparent 55%),
+          radial-gradient(900px 700px at 80% 20%, rgba(37, 99, 235, 0.10), transparent 60%),
+          radial-gradient(800px 600px at 50% 90%, rgba(255, 255, 255, 0.06), transparent 55%),
+          linear-gradient(to bottom, #07070b, #0b0b10 40%, #06060a);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+          "Apple Color Emoji", "Segoe UI Emoji";
+        background-color: var(--bg);
+      }
+
+      a { color: inherit; }
+
+      .container {
+        width: min(980px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      /* Minimal nav */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(6, 6, 10, 0.72);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+        gap: 16px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+      }
+
+      .brand .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 18px rgba(225, 29, 72, 0.55);
+      }
+
+      .navlinks {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .navlinks a {
+        text-decoration: none;
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      .navlinks a:hover {
+        color: var(--fg);
+        border-color: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .navlinks a[aria-current="page"] {
+        color: var(--fg);
+        border-color: rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      /* Nav CTAs (match index/install) */
+      .navCta {
+        background: rgba(37, 99, 235, 0.22);
+        color: var(--fg) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .navCta:hover {
+        background: rgba(37, 99, 235, 0.28);
+      }
+
+      .navGit {
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--fg) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .navGit:hover {
+        background: rgba(255, 255, 255, 0.09);
+      }
+
+      .ghIcon {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+        opacity: 0.95;
+      }
+
+      .vsIcon {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+        opacity: 0.95;
+      }
+
+      @media (max-width: 520px) {
+        /* Keep GitHub, hide VS Code CTA on very small screens */
+        .navCta { display: none; }
+      }
+
+      /* Page */
+      .page {
+        padding: 34px 0 72px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 26px 22px;
+      }
+
+      /* Docs typography */
+      .docs h1 {
+        margin-top: 0;
+        font-size: 2.1rem;
+        letter-spacing: -0.02em;
+      }
+
+      .docs h2 {
+        margin-top: 2.2rem;
+        font-size: 1.35rem;
+        letter-spacing: -0.01em;
+      }
+
+      .docs h3 {
+        margin-top: 1.5rem;
+        font-size: 1.1rem;
+      }
+
+      .docs p {
+        color: var(--fg);
+        line-height: 1.75;
+      }
+
+      .docs ul {
+        line-height: 1.75;
+        color: var(--fg);
+      }
+
+      .docs hr {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.10);
+        margin: 1.6rem 0;
+      }
+
+      .docs code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 0.95em;
+      }
+
+      .docs pre {
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        padding: 14px 14px;
+        overflow-x: auto;
+      }
+
+      .docs blockquote {
+        margin: 1rem 0;
+        padding: 0.25rem 1rem;
+        border-left: 3px solid rgba(225, 29, 72, 0.7);
+        color: rgba(255, 255, 255, 0.78);
+      }
+
+      .footer {
+        margin-top: 22px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .footer a { color: var(--fg); }
+
+      .logo {
+      width: 50px;
+      height: 50px;
+    }
+    </style>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div class="container">
+        <nav class="nav" aria-label="Primary">
+          <a class="brand" href="./index.html" aria-label="Zzza home">
+            <span class="dot" aria-hidden="true"></span>
+            <img class="logo" src="./assets/images/pizza_cat3-BG.png" alt="Zzza the Pizza Cat mascot">
+            <span>Zzza</span>
+          </a>
+          <div class="navlinks">
+            <a href="./index.html">Home</a>
+            <a href="./install.html">Install</a>
+            <a href="./docs.html" aria-current="page">Docs</a>
+
+            <a class="navCta" href="vscode:extension/jiode.zzza-vscode" aria-label="Open VS Code extension">
+              <svg class="vsIcon" viewBox="0 0 256 256" aria-hidden="true" focusable="false">
+                <path d="M246.6 54.4 196.2 30c-6.6-3.2-14.5-2.2-20.1 2.7L112 88.1 66.6 53.8c-6.2-4.7-14.9-4.1-20.4 1.4L9.8 91.5c-5.9 5.9-5.5 15.6.9 21l43.5 35.5-43.5 35.5c-6.4 5.2-6.8 15.1-.9 21l36.4 36.3c5.5 5.5 14.2 6.1 20.4 1.4L112 167.9l64.1 55.4c5.6 4.9 13.5 5.9 20.1 2.7l50.4-24.4c5.8-2.8 9.4-8.7 9.4-15.2V69.6c0-6.5-3.6-12.4-9.4-15.2ZM196 195.4l-56.9-49.2 56.9-49.2v98.4Z"></path>
+              </svg>
+              VS Code
+            </a>
+
+            <!-- TODO: replace # with your actual repo URL -->
+            <a class="navGit" href="#" target="_blank" rel="noopener" aria-label="Open GitHub repository">
+              <svg class="ghIcon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path>
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <div class="page">
+      <div class="container">
+        <main class="card docs" id="docs">
+          <h1>🍕 Zzza</h1>
+          <p><strong>Focus on just a slice of your code when working with AI.</strong><br />Or take the whole pie when you need it.</p>
+          <p>Zzza helps you create <strong>explicit, human-curated context</strong> for AI-assisted development by generating a single, inspectable context file from the files <em>you</em> choose.</p>
+          <p>No magic. No hidden state. Just context you can trust.</p>
+          <hr />
+          <h2>Why Zzza?</h2>
+          <p>AI tools are powerful — but they work best when the context is:</p>
+          <ul>
+            <li>intentional</li>
+            <li>readable</li>
+            <li>scoped</li>
+            <li>honest about what’s missing</li>
+          </ul>
+          <p>Zzza lets you:</p>
+          <ul>
+            <li>group files into named <em>slices</em></li>
+            <li>tag them with simple <em>groups</em> (often colors)</li>
+            <li>generate a single <code>slice_context.md</code> file for AI tools</li>
+            <li>include a lightweight tree to orient both humans and models</li>
+          </ul>
+          <p>You stay in control of what the AI sees.</p>
+          <hr />
+          <h2>How Zzza Works (In Plain English)</h2>
+          <p>Zzza is built around a few simple ideas:</p>
+          <ul>
+            <li>A <strong>slice</strong> is a named collection of files and/or folders you choose</li>
+            <li>A <strong>group</strong> is a single label (often a color or theme) that a slice belongs to</li>
+            <li>Zzza generates <strong>one clear context file</strong> from those choices</li>
+          </ul>
+          <p>There are a few important rules that keep things predictable and calm:</p>
+          <p><strong>The current rules are:</strong></p>
+          <ul>
+            <li><strong>One group per slice</strong> — slices are intentionally simple</li>
+            <li><strong>Groups are assigned explicitly</strong> — nothing is inferred or automatic</li>
+            <li><strong>The CLI and the VS Code UI always stay in sync</strong> — no hidden state</li>
+          </ul>
+          <p>These rules are deliberate. They keep your context:</p>
+          <ul>
+            <li>easy to reason about</li>
+            <li>easy to review</li>
+            <li>safe to share with AI tools</li>
+          </ul>
+          <hr />
+          <h2>Getting Started (5 Minutes)</h2>
+          <h3>1. Initialize Zzza</h3>
+          <p>In the root of your project:</p>
+          <pre><code class="language-bash">zzza init
+</code></pre>
+          <p>This creates a <code>slice.jsonc</code> file. This is the <em>source of truth</em> for everything Zzza does.
+It is safe to commit to Git and safe to edit by hand.</p>
+          <hr />
+          <h3>2. Create your first slice</h3>
+          <p>Think of a slice as answering the question:</p>
+          <blockquote>
+            <p><em>“What part of this codebase do I want the AI to focus on?”</em></p>
+          </blockquote>
+          <p>Add one or more files:</p>
+          <pre><code class="language-bash">zzza add core src/index.ts src/text.ts
+</code></pre>
+          <p>Or add a whole folder (expanded at build time):</p>
+          <pre><code class="language-bash">zzza add-dir core src/app
+</code></pre>
+          <p>If this is a new slice, it will be created automatically.</p>
+          <hr />
+          <h3>3. Assign the slice to a group</h3>
+          <p>Groups help you organize slices at a higher level (for example: <code>green</code>, <code>design</code>, <code>docs</code>).</p>
+          <pre><code class="language-bash">zzza group core green
+</code></pre>
+          <p>Remember:</p>
+          <ul>
+            <li>each slice belongs to <strong>one group</strong></li>
+            <li>changing a group is always explicit</li>
+          </ul>
+          <hr />
+          <h3>4. Inspect what you have</h3>
+          <p>List all slices:</p>
+          <pre><code class="language-bash">zzza list slices
+</code></pre>
+          <p>See what files are in a slice:</p>
+          <pre><code class="language-bash">zzza list slice core
+</code></pre>
+          <p>See which group a slice belongs to:</p>
+          <pre><code class="language-bash">zzza list group core
+</code></pre>
+          <p>List all groups:</p>
+          <pre><code class="language-bash">zzza list groups
+</code></pre>
+          <hr />
+          <h3>5. Build the context</h3>
+          <pre><code class="language-bash">zzza build
+</code></pre>
+          <p>This generates <code>slice_context.md</code> — a single, inspectable file you can paste into ChatGPT, Claude, or other AI tools.</p>
+          <hr />
+          <h2>Installation</h2>
+          <pre><code class="language-bash">npm install -g zzza
+</code></pre>
+          <p>Recommended for most projects:</p>
+          <pre><code class="language-bash">npm install -D zzza
+# then run via npx
+npx zzza init
+</code></pre>
+          <p>Strongly recommended alias (much easier to type):</p>
+          <pre><code class="language-bash">alias sli="zzza"
+</code></pre>
+          <p>Add that to your <code>~/.zshrc</code> or <code>~/.bashrc</code>.</p>
+          <hr />
+          <h2>slice.jsonc (Human-Editable)</h2>
+          <p>Zzza uses JSONC (JSON with comments) so you can understand and edit it comfortably.</p>
+          <pre><code class="language-jsonc">{
+  "settings": {
+    "contextFile": "slice_context.md",
+
+    // Paths to ignore everywhere
+    "ignore": ["node_modules/**", "dist/**", ".git/**"],
+
+    // Directory expansion rules (glob‑lite)
+    "dirInclude": ["**/*.ts", "**/*.html", "**/*.css", "**/*.scss", "**/*.md"],
+    "dirExclude": ["**/*.map", "**/*.min.*"],
+
+    // Optional orientation tree
+    "tree": {
+      "roots": ["src"],
+      "mode": "dirs-only",
+      "maxDepth": 6,
+      "maxEntries": 500
+    }
+  },
+
+  "slices": [
+    {
+      "id": "core",
+      "name": "Core",
+      "group": "default",
+      "items": [
+        { "kind": "file", "path": "src/index.ts" },
+        { "kind": "dir", "path": "src/app" }
+      ]
+    }
+  ]
+}
+</code></pre>
+          <hr />
+          <h2>Context Tree</h2>
+          <p>Zzza can generate a lightweight directory tree to help orient AI and humans.</p>
+          <p>Modes:</p>
+          <ul>
+            <li><code>dirs-only</code> (default, token-efficient)</li>
+            <li><code>dirs-and-files</code> (more detail)</li>
+          </ul>
+          <p>The tree is regenerated on each build to stay honest and deterministic.</p>
+          <hr />
+          <h2>Using Zzza from VS Code</h2>
+          <p>Zzza includes a VS Code extension that mirrors the CLI.</p>
+          <p>From the sidebar you can:</p>
+          <ul>
+            <li>create new slices</li>
+            <li>add files or folders</li>
+            <li>assign groups</li>
+            <li>remove files, folders, or entire slices</li>
+            <li>build context files</li>
+          </ul>
+          <p>The UI does <strong>not</strong> introduce new behavior.
+Every action maps directly to a CLI command.</p>
+          <p>If you ever wonder <em>“what did the UI do?”</em> — you can always reproduce it in the terminal.</p>
+          <hr />
+          <h2>Build Warnings</h2>
+          <p>If a file is missing or unreadable:</p>
+          <ul>
+            <li>the build still succeeds</li>
+            <li>a warning is printed in the CLI</li>
+            <li>a warning block is added to <code>slice_context.md</code></li>
+          </ul>
+          <p>Missing files are treated as <strong>signals</strong>, not silent failures.</p>
+          <hr />
+          <h2>Directory Expansion (Glob‑Lite)</h2>
+          <p>When a slice contains a directory, Zzza expands it at build time using simple, predictable rules:</p>
+          <ul>
+            <li><code>dirInclude</code> — which file types are allowed</li>
+            <li><code>dirExclude</code> — which patterns are filtered out</li>
+            <li><code>ignore</code> — global exclusions applied everywhere</li>
+          </ul>
+          <p>This keeps slices:</p>
+          <ul>
+            <li>deterministic</li>
+            <li>token‑efficient</li>
+            <li>honest about what is included</li>
+          </ul>
+          <p>No background watching or hidden state — every build re-evaluates the directory.</p>
+          <hr />
+          <h2>Commands</h2>
+          <pre><code class="language-txt">zzza init
+zzza add &lt;slice&gt; &lt;path...&gt; [--group &lt;group&gt;]
+zzza add-dir &lt;slice&gt; &lt;path...&gt; [--group &lt;group&gt;]
+zzza remove &lt;slice&gt; &lt;path...&gt;
+zzza list [slice|group]
+zzza build [slice|group]
+zzza doctor
+zzza about
+zzza --tips
+zzza --version
+</code></pre>
+          <hr />
+          <h2>Philosophy</h2>
+          <p>Zzza follows a simple rule:</p>
+          <blockquote>
+            <p>If a human might debate the wording, it belongs in a file you can read.</p>
+          </blockquote>
+          <p>There is no hidden state, no background syncing, and no AI-specific lock-in.
+Everything Zzza generates is plain text and Git-friendly.</p>
+          <p>Zzza is designed to feel stable over time. If something changes, it is because <em>you</em> changed it.</p>
+          <hr />
+          <h2>Future Path 🚀</h2>
+          <h3>v2 — Reverse Patch Mode (Git-based)</h3>
+          <ul>
+            <li>Generate and apply diffs from AI suggestions</li>
+            <li><code>zzza apply</code> using <code>git apply</code> for safety</li>
+            <li>Dry-run by default</li>
+          </ul>
+          <h3>v3 — Dependency &amp; Import Graphs</h3>
+          <ul>
+            <li>Optional import/dependency visualization</li>
+            <li>Language-aware where possible</li>
+          </ul>
+          <h3>VS Code Integration</h3>
+          <ul>
+            <li>GUI for managing slices and groups</li>
+            <li>Color-based slice selection</li>
+            <li>Build slices directly from the sidebar</li>
+            <li>Add files or folders to slices from the Explorer</li>
+          </ul>
+          <p>All future features will be:</p>
+          <ul>
+            <li>explicit</li>
+            <li>inspectable</li>
+            <li>reversible</li>
+            <li>widely expected</li>
+          </ul>
+          <hr />
+          <h2>License</h2>
+          <p>MIT</p>
+          <hr />
+          <p>Built as part of the Jiode ecosystem.<br />Tools for the future.</p>
+          <p>👉 <a href="https://jiode.one">https://jiode.one</a></p>
+
+          <div class="footer">
+            <p>
+              Tip: If you're here because the CLI told you to open the docs, this is the right place.
+            </p>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

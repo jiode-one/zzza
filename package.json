@@ -1,8 +1,31 @@
 {
-  "name": "sliceza",
+  "name": "zzza",
   "private": true,
   "workspaces": [
     "packages/*",
     "extensions/*"
-  ]
+  ],
+  "devDependencies": {
+    "tsup": "^8.3.0",
+    "tsx": "^4.21.0",
+    "zzza": "file:packages/cli/zzza"
+  },
+  "scripts": {
+    "dev:cli": "tsx packages/cli/zzza/src/index.ts",
+    "clean:cli": "rm -rf dist packages/cli/zzza/dist",
+    
+    "watch:extension": "tsc -w -p extensions/vscode/tsconfig.json",
+    
+    "build": "npm run build:cli && npm run build:extension",
+    "build:cli": "tsup packages/cli/zzza/src/index.ts --format esm --dts --out-dir packages/cli/zzza/dist --clean --platform node --target node22 --external commander",
+    "build:extension": "tsc -p extensions/vscode/tsconfig.json",
+
+    "pack:cli": "cd packages/cli/zzza && npm pack",
+    "publish:cli": "cd packages/cli/zzza && npm publish --access public",
+
+    "package:extension": "cd extensions/vscode && vsce package",
+    "publish:extension": "cd extensions/vscode && vsce publish",
+
+    "zzza": "zzza"
+  }
 }

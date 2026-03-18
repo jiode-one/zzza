@@ -1,0 +1,149 @@
+{
+  "name": "zzza-vscode",
+  "displayName": "zzza",
+  "description": "Native VS Code companion for zzza CLI (slices, groups, build).",
+  "version": "0.0.1",
+  "publisher": "jiode",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": [
+    "onView:zzza.welcome",
+    "onView:zzza.slices",
+    "onView:zzza.groups",
+    "onCommand:zzza.refresh",
+    "onCommand:zzza.installLocal",
+    "onCommand:zzza.installGlobal",
+    "onCommand:zzza.buildAll",
+    "onCommand:zzza.init",
+    "onCommand:zzza.addPath",
+    "onCommand:zzza.ui.addToSlice",
+    "onCommand:zzza.ui.removeFromSlice",
+    "onCommand:zzza.ui.buildSlice",
+    "onCommand:zzza.ui.rmSlice",
+    "onCommand:zzza.ui.newSlice",
+    "onCommand:zzza.ui.buildGroup"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "zzza",
+          "title": "zzza",
+          "icon": "resources/zzza.svg"
+        }
+      ]
+    },
+    "views": {
+      "zzza": [
+        {
+          "id": "zzza.welcome",
+          "name": "Welcome",
+          "when": "zzza.showWelcome"
+        },
+        {
+          "id": "zzza.slices",
+          "name": "Slices"
+        },
+        {
+          "id": "zzza.groups",
+          "name": "groups"
+        }
+      ]
+    },
+    "commands": [
+      { "command": "zzza.refresh", "title": "zzza: Refresh" },
+      { "command": "zzza.installLocal", "title": "zzza: Install CLI (local devDependency)" },
+      { "command": "zzza.installGlobal", "title": "zzza: Install CLI (global)" },
+      { "command": "zzza.buildAll", "title": "zzza: Build Context (all)" },
+      { "command": "zzza.init", "title": "zzza: Init" },
+      { "command": "zzza.addPath", "title": "zzza: Add File/Folder to Slice…" },
+      { "command": "zzza.ui.addToSlice", "title": "zzza: Add to Slice", "icon": "$(add)" },
+      { "command": "zzza.ui.removeFromSlice", "title": "zzza: Remove from Slice", "icon": "$(trash)" },
+      { "command": "zzza.ui.buildSlice", "title": "zzza: Build Slice", "icon": "$(zap)" },
+      { "command": "zzza.setGroupForSlice", "title": "zzza: Set Slice Group", "icon": "$(layers)" },
+      { "command": "zzza.ui.rmSlice", "title": "zzza: Remove Slice", "icon": "$(trash)" },
+      { "command": "zzza.ui.newSlice", "title": "zzza: New Slice", "icon": "$(add)" },
+      {"command": "zzza.ui.buildGroup","title": "zzza: Build Group","icon": "$(zap)"}
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "zzza.addPath",
+          "when": "resourceScheme == file",
+          "group": "navigation@9"
+        },
+        {
+          "command": "zzza.buildAll",
+          "when": "explorerResourceIsFolder",
+          "group": "navigation@10"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "zzza.ui.addToSlice",
+          "when": "view == zzza.slices && viewItem == slicezaSlice",
+          "group": "inline"
+        },
+        {
+          "command": "zzza.ui.buildSlice",
+          "when": "view == zzza.slices && viewItem == slicezaSlice",
+          "group": "inline"
+        },
+        {
+          "command": "zzza.ui.removeFromSlice",
+          "when": "view == zzza.slices && viewItem == slicezaDir",
+          "group": "inline"
+        },
+        {
+          "command": "zzza.ui.removeFromSlice",
+          "when": "view == zzza.slices && viewItem == slicezaSliceFile",
+          "group": "inline"
+        },
+        {
+          "command": "zzza.setGroupForSlice",
+          "when": "view == zzza.slices && viewItem == slicezaSlice",
+          "group": "inline"
+        },
+        {
+          "command": "zzza.setGroupForSlice",
+          "when": "view == zzza.slices && viewItem == slicezaSlice",
+          "group": "navigation"
+        },
+        {
+          "command": "zzza.ui.rmSlice",
+          "when": "view == zzza.slices && viewItem == slicezaSlice",
+          "group": "inline"
+        },
+        {
+          "command": "zzza.ui.buildGroup",
+          "when": "view == zzza.groups && viewItem == slicezaGroup",
+          "group": "inline"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "zzza.ui.newSlice",
+          "when": "view == zzza.slices",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -w -p tsconfig.json",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "jsonc-parser": "^3.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.6.3",
+    "@vscode/vsce": "^3.0.0"
+  }
+}

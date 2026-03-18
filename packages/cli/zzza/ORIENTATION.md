@@ -1,5 +1,7 @@
 # 🍕 zzza
 
+This is a snapshot of the readme, but with the orientation being for devs first.
+
 **Focus on just a slice of your code when working with AI.**  
 Or take the whole pie when you need it.
 
@@ -33,6 +35,14 @@ You stay in control of what the AI sees.
 npm install -g zzza
 ```
 
+Recommended for most projects:
+
+```bash
+npm install -D zzza
+# then run via npx
+npx zzza init
+```
+
 Strongly recommended alias (much easier to type):
 
 ```bash
@@ -56,8 +66,19 @@ This creates a `slice.jsonc` file (safe to edit by hand).
 Add files to a slice:
 
 ```bash
-zzza add core green src/index.ts src/text.ts
+zzza add core src/index.ts src/text.ts --group green
+zzza add core src/another.ts   # uses group "default" if slice is new
 ```
+
+### Add a folder (dir-based slices)
+
+Add an entire folder to a slice (directories are expanded at build time):
+
+```bash
+zzza add-dir core src/app --group green
+```
+
+Directories are resolved using include/exclude rules at build time, so your context always reflects the current state of the codebase.
 
 List slices or inspect a group/slice:
 
@@ -85,8 +106,15 @@ zzza uses JSONC (JSON with comments) so you can understand and edit it comfortab
 {
   "settings": {
     "contextFile": "slice_context.md",
-    "ignore": ["node_modules/**", "dist/**"],
 
+    // Paths to ignore everywhere
+    "ignore": ["node_modules/**", "dist/**", ".git/**"],
+
+    // Directory expansion rules (glob‑lite)
+    "dirInclude": ["**/*.ts", "**/*.html", "**/*.css", "**/*.scss", "**/*.md"],
+    "dirExclude": ["**/*.map", "**/*.min.*"],
+
+    // Optional orientation tree
     "tree": {
       "roots": ["src"],
       "mode": "dirs-only",
@@ -99,10 +127,10 @@ zzza uses JSONC (JSON with comments) so you can understand and edit it comfortab
     {
       "id": "core",
       "name": "Core",
-      "group": "green",
+      "group": "default",
       "items": [
         { "kind": "file", "path": "src/index.ts" },
-        { "kind": "file", "path": "src/text.ts" }
+        { "kind": "dir", "path": "src/app" }
       ]
     }
   ]
@@ -134,11 +162,29 @@ Missing files are treated as **signals**, not silent failures.
 
 ---
 
+## Directory Expansion (Glob‑Lite)
+
+When a slice contains a directory, zzza expands it at build time using simple, predictable rules:
+
+- `dirInclude` — which file types are allowed
+- `dirExclude` — which patterns are filtered out
+- `ignore` — global exclusions applied everywhere
+
+This keeps slices:
+- deterministic
+- token‑efficient
+- honest about what is included
+
+No background watching or hidden state — every build re-evaluates the directory.
+
+---
+
 ## Commands
 
 ```txt
 zzza init
-zzza add <slice> <group> <path...>
+zzza add <slice> <path...> [--group <group>]
+zzza add-dir <slice> <path...> [--group <group>]
 zzza remove <slice> <path...>
 zzza list [slice|group]
 zzza build [slice|group]
@@ -175,6 +221,8 @@ Everything zzza generates is plain text and Git-friendly.
 ### VS Code Integration
 - GUI for managing slices and groups
 - Color-based slice selection
+- Build slices directly from the sidebar
+- Add files or folders to slices from the Explorer
 
 All future features will be:
 - explicit
