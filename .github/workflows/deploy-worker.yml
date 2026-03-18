@@ -1,0 +1,120 @@
+name: Deploy Workers
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Notify Build CI result
+        if: always()
+        run: |
+          STATUS="${{ job.status }}"
+
+          if [ "$STATUS" = "success" ]; then
+            TITLE="✅ Wavvy Build CI Passed"
+            PRIORITY="0"
+          else
+            TITLE="❌ Wavvy Build CI Failed"
+            PRIORITY="1"
+          fi
+
+          curl -s \
+            --form-string "token=${{ secrets.PUSHOVER_APP_TOKEN }}" \
+            --form-string "user=${{ secrets.PUSHOVER_USER_KEY }}" \
+            --form-string "title=$TITLE" \
+            --form-string "message=Build $STATUS on ${{ github.ref_name }} — ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --form-string "priority=$PRIORITY" \
+            https://api.pushover.net/1/messages.json
+
+  deploy-api:
+    name: Deploy API Worker
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy API Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.73.0"
+          command: deploy --config worker/wrangler.api.jsonc
+
+      - name: Notify API CI result
+        if: always()
+        run: |
+          STATUS="${{ job.status }}"
+
+          if [ "$STATUS" = "success" ]; then
+            TITLE="✅ Wavvy API CI Passed"
+            PRIORITY="0"
+          else
+            TITLE="❌ Wavvy API CI Failed"
+            PRIORITY="1"
+          fi
+
+          curl -s \
+            --form-string "token=${{ secrets.PUSHOVER_APP_TOKEN }}" \
+            --form-string "user=${{ secrets.PUSHOVER_USER_KEY }}" \
+            --form-string "title=$TITLE" \
+            --form-string "message=API deploy $STATUS on ${{ github.ref_name }} — ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --form-string "priority=$PRIORITY" \
+            https://api.pushover.net/1/messages.json
+
+  deploy-auth:
+    name: Deploy Auth Worker
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy Auth Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.73.0"
+          command: deploy --config worker/wrangler.auth.jsonc
+
+      - name: Notify Auth CI result
+        if: always()
+        run: |
+          STATUS="${{ job.status }}"
+
+          if [ "$STATUS" = "success" ]; then
+            TITLE="✅ Wavvy Auth CI Passed"
+            PRIORITY="0"
+          else
+            TITLE="❌ Wavvy Auth CI Failed"
+            PRIORITY="1"
+          fi
+
+          curl -s \
+            --form-string "token=${{ secrets.PUSHOVER_APP_TOKEN }}" \
+            --form-string "user=${{ secrets.PUSHOVER_USER_KEY }}" \
+            --form-string "title=$TITLE" \
+            --form-string "message=Auth deploy $STATUS on ${{ github.ref_name }} — ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --form-string "priority=$PRIORITY" \
+            https://api.pushover.net/1/messages.json
