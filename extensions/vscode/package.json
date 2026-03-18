@@ -1,5 +1,14 @@
 {
   "name": "zzza-vscode",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/jiode-one/zzza.git"
+  },
+  "directory": "extensions/vscode",
+  "homepage": "https://github.com/jiode-one/zzza",
+  "bugs": {
+    "url": "https://github.com/jiode-one/zzza/issues"
+  },
   "displayName": "zzza",
   "description": "Native VS Code companion for zzza CLI (slices, groups, build).",
   "version": "0.0.1",
@@ -23,7 +32,8 @@
     "onCommand:zzza.ui.buildSlice",
     "onCommand:zzza.ui.rmSlice",
     "onCommand:zzza.ui.newSlice",
-    "onCommand:zzza.ui.buildGroup"
+    "onCommand:zzza.ui.buildGroup",
+    "onCommand:zzza.setGroupForSlice"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -49,7 +59,7 @@
         },
         {
           "id": "zzza.groups",
-          "name": "groups"
+          "name": "Groups"
         }
       ]
     },

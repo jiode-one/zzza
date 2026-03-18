@@ -65,11 +65,6 @@ class ChannelNode extends vscode.TreeItem {
     this.description = `${sliceCount}`;
     this.contextValue = "slicezaGroup";
     this.iconPath = new vscode.ThemeIcon("layers");
-    this.command = {
-      command: "zzza.ui.buildGroup",
-      title: "Build Group",
-      arguments: [{ group }],
-    };
   }
 }
 
