@@ -27,6 +27,7 @@ jobs:
 
       - name: Notify build result
         if: always()
+        continue-on-error: true
         run: |
           STATUS="${{ job.status }}"
 
@@ -38,13 +39,16 @@ jobs:
             PRIORITY="1"
           fi
 
-          curl -s \
+          RESPONSE=$(curl --fail-with-body --silent --show-error \
             --form-string "token=${{ secrets.PUSHOVER_APP_TOKEN }}" \
             --form-string "user=${{ secrets.PUSHOVER_USER_KEY }}" \
             --form-string "title=$TITLE" \
             --form-string "message=Build $STATUS on ${{ github.ref_name }} — ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
             --form-string "priority=$PRIORITY" \
-            https://api.pushover.net/1/messages.json
+            https://api.pushover.net/1/messages.json \
+            || echo "::warning::Pushover notification failed")
+
+          echo "$RESPONSE"
 
   deploy-worker:
     name: Deploy Cloudflare Worker
@@ -73,6 +77,7 @@ jobs:
 
       - name: Notify deploy result
         if: always()
+        continue-on-error: true
         run: |
           STATUS="${{ job.status }}"
 
@@ -84,10 +89,13 @@ jobs:
             PRIORITY="1"
           fi
 
-          curl -s \
+          RESPONSE=$(curl --fail-with-body --silent --show-error \
             --form-string "token=${{ secrets.PUSHOVER_APP_TOKEN }}" \
             --form-string "user=${{ secrets.PUSHOVER_USER_KEY }}" \
             --form-string "title=$TITLE" \
             --form-string "message=Deploy $STATUS on ${{ github.ref_name }} — ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
             --form-string "priority=$PRIORITY" \
-            https://api.pushover.net/1/messages.json
+            https://api.pushover.net/1/messages.json \
+            || echo "::warning::Pushover notification failed")
+
+          echo "$RESPONSE"
