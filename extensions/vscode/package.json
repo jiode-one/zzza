@@ -19,7 +19,7 @@
 
   "displayName": "zzza",
   "description": "Native VS Code companion for zzza CLI (slices, groups, build).",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "publisher": "jiode",
   "engines": {
     "vscode": "^1.85.0"
