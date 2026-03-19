@@ -12,7 +12,7 @@
 
   "routes": [
     {
-      "pattern": "zzza.online/*",
+      "pattern": "zzza.online",
       "custom_domain": true
     }
   ]
