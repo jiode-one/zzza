@@ -8,5 +8,12 @@
   "assets": {
     "directory": "../apps/web/zzza",
     "binding": "ASSETS"
-  }
+  },
+
+  "routes": [
+    {
+      "pattern": "zzza.online/*",
+      "custom_domain": true
+    }
+  ]
 }
