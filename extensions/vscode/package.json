@@ -2,13 +2,21 @@
   "name": "zzza-vscode",
   "repository": {
   "type": "git",
-  "url": "https://github.com/jiode-one/zzza.git"
+  "url": "https://github.com/jiode-one/zzza.git",
+  "directory": "extensions/vscode"
   },
-  "directory": "extensions/vscode",
+  "license": "MIT",
+"files": [
+  "dist",
+  "resources",
+  "README.md",
+  "LICENSE"
+],
   "homepage": "https://github.com/jiode-one/zzza",
   "bugs": {
     "url": "https://github.com/jiode-one/zzza/issues"
   },
+
   "displayName": "zzza",
   "description": "Native VS Code companion for zzza CLI (slices, groups, build).",
   "version": "0.0.1",
@@ -145,7 +153,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "watch": "tsc -w -p tsconfig.json",
-    "package": "vsce package"
+    "package": "npx @vscode/vsce package --no-dependencies"
   },
   "dependencies": {
     "jsonc-parser": "^3.3.1"

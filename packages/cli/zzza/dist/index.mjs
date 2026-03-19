@@ -1729,6 +1729,12 @@ function matchesExclude(rel, patterns) {
 function estimateTokensFromChars(charCount) {
   return Math.ceil(charCount / 4);
 }
+function lower(value) {
+  return (value ?? "").trim().toLowerCase();
+}
+function getSliceGroup(slice) {
+  return lower(slice.group ?? slice.channel ?? "default") || "default";
+}
 function collectDirFiles(dirRel, includeExts, exclude) {
   const out = [];
   const stack = [dirRel];
@@ -1762,7 +1768,7 @@ function buildCmd(manifestFile, target) {
   const outFile = path2.join(process.cwd(), data.settings?.contextFile ?? "slice_context.md");
   const missingFiles = [];
   const needle = target?.trim().toLowerCase();
-  const chosen = !needle ? data.slices : data.slices.some((s) => s.group.toLowerCase() === needle) ? data.slices.filter((s) => s.group.toLowerCase() === needle) : data.slices.filter((s) => s.id.toLowerCase() === needle || s.name.toLowerCase() === needle);
+  const chosen = !needle ? data.slices : data.slices.some((s) => getSliceGroup(s) === needle) ? data.slices.filter((s) => getSliceGroup(s) === needle) : data.slices.filter((s) => lower(s.id) === needle || lower(s.name) === needle);
   if (needle && chosen.length === 0) {
     throw new Error(`Nothing matched "${target}" (group or slice)`);
   }
@@ -1857,11 +1863,9 @@ Treat missing files or warnings below as signals, rather than errors.
         addPath(treeRoot, childRel);
         treeEntries++;
         walkTree(childRel, depth + 1);
-      } else {
-        if (treeMode === "dirs-and-files") {
-          addPath(treeRoot, childRel);
-          treeEntries++;
-        }
+      } else if (treeMode === "dirs-and-files") {
+        addPath(treeRoot, childRel);
+        treeEntries++;
       }
     }
   }
@@ -1886,7 +1890,7 @@ Treat missing files or warnings below as signals, rather than errors.
   for (const s of chosen) {
     md += `## Slice: ${s.name} (${s.id})
 `;
-    md += `group: \`${s.group}\`
+    md += `group: \`${getSliceGroup(s)}\`
 
 `;
     const fileItems = s.items.filter((i) => i.kind === "file");

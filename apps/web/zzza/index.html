@@ -1015,7 +1015,7 @@
             VS Code
           </a>
           <!-- TODO: replace # with your actual repo URL -->
-          <a class="navGit" href="#" target="_blank" rel="noopener" aria-label="Open GitHub repository">
+          <a class="navGit" href="https://github.com/jiode-one/zzza" target="_blank" rel="noopener" aria-label="Open GitHub repository">
             <svg class="ghIcon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
               <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path>
             </svg>
@@ -1141,7 +1141,56 @@
             <span class="highlight">• Drop into docs or a PR</span>
           </div>
         </div>
-        <p class="note"><i>Once you've built the context library <code>slice_context.md</code>, you can share it with AI or your team without exposing your entire repository.</p></i>
+        <p class="note"><i>Once you've built the context library <code>slice_context.md</code>, you can share it with AI or your team without exposing your entire repository.</i></p>
+        <div class="card blueFlow" style="margin-top: 1rem;">
+  <div class="cardHead">
+    <h3>Using Zzza with ChatGPT</h3>
+    <span class="pill">Current workaround</span>
+  </div>
+
+  <p class="note" style="margin-top: 0;">
+    If you're using ChatGPT, our current favorite workflow is to build your slice first, then use the
+    <span class="kbd">app</span> button in the ChatGPT desktop client to connect your coding session.
+  </p>
+
+  <div class="miniFlow">
+    <div class="miniCard">
+      <div class="miniHead">
+        <strong>1) Build your slice</strong>
+        <span class="pill">Context first</span>
+      </div>
+      <pre class="miniCmd"><code>zzza build &lt;slice-name&gt;</code></pre>
+      <p class="miniNote">
+        This generates <code>slice_context.md</code>, which gives ChatGPT focused context without exposing your whole repo.
+      </p>
+    </div>
+
+    <div class="miniCard">
+      <div class="miniHead">
+        <strong>2) Open the ChatGPT app menu</strong>
+        <span class="pill">Desktop client</span>
+      </div>
+      <p class="miniNote">
+        In the ChatGPT desktop app, click the <span class="kbd">app</span> button near the prompt box, then choose your coding app or active editor session.
+      </p>
+    </div>
+
+    <div class="miniCard">
+      <div class="miniHead">
+        <strong>3) Share your session</strong>
+        <span class="pill">Current bridge</span>
+      </div>
+      <p class="miniNote">
+        Once your editor session is connected, paste in your generated <code>slice_context.md</code> or refer to the files you've prepared with Zzza.  
+        For now, this is the cleanest workaround for pairing Zzza with the ChatGPT client.
+      </p>
+    </div>
+  </div>
+
+  <p class="note" style="margin-top: 0.9rem;">
+    <span class="highlight">How this works:</span> Zzza keeps your context intentional, and ChatGPT gets just the part of the repo you actually want to talk about.
+  </p>
+</div>
       </div>
     </section>
     <section class="hero revealSection">

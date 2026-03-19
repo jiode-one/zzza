@@ -30,6 +30,21 @@
           "path": "src/text.ts"
         }
       ]
+    },
+    {
+      "id": "ios-stuff",
+      "name": "ios-stuff",
+      "channel": "default",
+      "items": [
+        {
+          "kind": "file",
+          "path": "README.md"
+        },
+        {
+          "kind": "file",
+          "path": "CHANGELOG.md"
+        }
+      ]
     }
   ]
 }
