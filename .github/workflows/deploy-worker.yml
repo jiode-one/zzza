@@ -39,7 +39,8 @@ jobs:
             PRIORITY="1"
           fi
 
-          RESPONSE=$(curl --fail-with-body --silent --show-error \ }}" \
+          RESPONSE=$(curl --fail-with-body --silent --show-error \
+            --form-string "token=${{ secrets.PUSHOVER_APP_TOKEN }}" \
             --form-string "user=${{ secrets.PUSHOVER_USER_KEY }}" \
             --form-string "title=$TITLE" \
             --form-string "message=Build $STATUS on ${{ github.ref_name }} — ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
