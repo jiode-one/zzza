@@ -6,17 +6,22 @@ function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data, null, 2), {
     status,
     headers: {
-      "content-type": "application/json; charset=utf-8"
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "public, max-age=60"
     }
   })
+}
+
+function assetRequest(req: Request, url: URL, pathname: string): Request {
+  return new Request(new URL(pathname, url), req)
 }
 
 export default {
   async fetch(req: Request, env: Env): Promise<Response> {
     const url = new URL(req.url)
+    const { pathname } = url
 
-    // tiny health endpoint for CI / sanity checks
-    if (url.pathname === "/health") {
+    if (pathname === "/health") {
       return new Response("ok", {
         status: 200,
         headers: {
@@ -26,8 +31,7 @@ export default {
       })
     }
 
-    // example preview metadata endpoint
-    if (url.pathname === "/api/preview") {
+    if (pathname === "/api/preview") {
       return json({
         ok: true,
         name: "Zzza",
@@ -37,21 +41,30 @@ export default {
       })
     }
 
-    // example simple thumbnail alias
-    if (url.pathname === "/og.png" || url.pathname === "/preview.png") {
+    if (pathname === "/og.png" || pathname === "/preview.png") {
       return env.ASSETS.fetch(
-        new Request(new URL("/assets/images/pizza_cat3-BG.png", url.origin).toString(), req)
+        assetRequest(req, url, "/assets/images/pizza_cat3-BG.png")
       )
     }
 
-    // optional convenience: serve index.html for "/"
-    if (url.pathname === "/") {
+    if (pathname === "/" || pathname === "/index" || pathname === "/index.html") {
       return env.ASSETS.fetch(
-        new Request(new URL("/index.html", url.origin).toString(), req)
+        assetRequest(req, url, "/index.html")
       )
     }
 
-    // everything else falls through to your static site
+    if (pathname === "/docs") {
+      return env.ASSETS.fetch(
+        assetRequest(req, url, "/docs.html")
+      )
+    }
+
+    if (pathname === "/install") {
+      return env.ASSETS.fetch(
+        assetRequest(req, url, "/install.html")
+      )
+    }
+
     return env.ASSETS.fetch(req)
   }
 }
