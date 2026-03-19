@@ -4,8 +4,9 @@
   "type": "git",
   "url": "https://github.com/jiode-one/zzza.git",
   "directory": "extensions/vscode"
-  },
-  "license": "MIT",
+},
+"icon": "resources/pizza_cat_smol.png",
+"license": "MIT",
 "files": [
   "dist",
   "resources",
@@ -17,9 +18,9 @@
     "url": "https://github.com/jiode-one/zzza/issues"
   },
 
+  "version": "1.1.0",
   "displayName": "zzza",
   "description": "Native VS Code companion for zzza CLI (slices, groups, build).",
-  "version": "1.0.1",
   "publisher": "jiode",
   "engines": {
     "vscode": "^1.85.0"
