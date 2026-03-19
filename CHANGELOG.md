@@ -12,7 +12,7 @@ changes are described in terms of **intent**, **behavior**, and **user impact**.
 **Status:** Stable  
 **Theme:** Symmetry and beginner-friendly defaults
 
-### Changed
+### Changed OK whatever
 - `zzza add` / `zzza add-dir`
   - group is now an optional flag instead of a positional argument:
     - `zzza add <slice> <path...> [--group <group>]`
