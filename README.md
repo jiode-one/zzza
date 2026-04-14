@@ -3,6 +3,8 @@
 Visit:
 https://zzza.online/
 
+![pizza cat](https://raw.githubusercontent.com/jiode-one/zzza/refs/heads/main/apps/web/zzza/assets/images/pizza_cat.png)
+
 **Focus on just a slice of your code when working with AI.**  
 Or take the whole pie when you need it.
 
