@@ -45,6 +45,21 @@
           "path": "CHANGELOG.md"
         }
       ]
+    },
+    {
+      "id": "temp",
+      "name": "temp",
+      "group": "default",
+      "items": [
+        {
+          "kind": "file",
+          "path": "apps/web/zzza/index.html"
+        },
+        {
+          "kind": "file",
+          "path": "worker/src/index.ts"
+        }
+      ]
     }
   ]
 }
