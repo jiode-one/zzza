@@ -18,7 +18,7 @@
     "url": "https://github.com/jiode-one/zzza/issues"
   },
 
-  "version": "1.1.0",
+  "version": "1.1.1",
   "displayName": "zzza",
   "description": "Native VS Code companion for zzza CLI (slices, groups, build).",
   "publisher": "jiode",

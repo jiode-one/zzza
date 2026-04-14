@@ -5,7 +5,7 @@ Or take the whole pie when you need it.
 
 zzza helps you create **explicit, human-curated context** for AI-assisted development by generating a single, inspectable context file from the files *you* choose.
 
-No magic. No hidden state. Just context you can trust.
+Context you can trust.
 
 ---
 

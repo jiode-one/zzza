@@ -1,7 +1,7 @@
 # zzza
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jiode-one/zzza/main/extensions/vscode/resources/pizza_cat.png" width="160" />
+  <img src="https://raw.githubusercontent.com/jiode-one/zzza/refs/heads/main/apps/web/zzza/assets/images/pizza_cat.png " width="160" />
 </p>
 
 <h1 align="center">Zzza 🍕</h1>

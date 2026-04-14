@@ -19,8 +19,8 @@
     "build:extension": "tsc -p extensions/vscode/tsconfig.json",
     "pack:cli": "cd packages/cli/zzza && npm pack",
     "publish:cli": "cd packages/cli/zzza && npm publish --access public",
-    "package:extension": "cd extensions/vscode && vsce package",
-    "publish:extension": "cd extensions/vscode && vsce publish",
+    "package:extension": "cd extensions/vscode && npx @vscode/vsce package --no-dependencies",
+    "publish:extension": "npm run package:extension && open https://marketplace.visualstudio.com/manage/publishers/ && echo \"🧠 Manual publish: Upload your .vsix and click update\"",
     "zzza": "zzza"
   }
 }
