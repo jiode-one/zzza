@@ -1,0 +1,1 @@
+The Zzza name, logo, and cat are protected brand assets. This repository’s code may be used as permitted, but the Zzza identity may not be reused, copied, or redistributed without permission.
